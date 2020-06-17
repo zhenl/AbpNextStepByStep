@@ -9,4 +9,9 @@
     <PackageReference Include="Volo.Abp" Version="2.9.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ZL.AbpNext.Poem.Core\ZL.AbpNext.Poem.Core.csproj" />
+    <ProjectReference Include="..\ZL.AbpNext.Poem.EF\ZL.AbpNext.Poem.EF.csproj" />
+  </ItemGroup>
+
 </Project>

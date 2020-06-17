@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using ZL.AbpNext.Poem.Core.Poems;
 
 namespace ZL.AbpNext.Poem.EF.EntityFramework
 {
-    public class PoemDbContext : AbpDbContext<PoemDbContext>
+    [ConnectionStringName("Poem")]
+    public class PoemDbContext : AbpDbContext<PoemDbContext>,IPoemDbContext
     {
         public virtual DbSet<Poet> Poets { get; set; }
 
