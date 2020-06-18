@@ -27,7 +27,8 @@ namespace ZL.AbpNext.Poem.ConsoleClient
                // var poet = repository.FirstOrDefault();
                 
                 Console.WriteLine(poet.Name);
-                //Console.WriteLine(poet.Poems.Count());
+                Console.WriteLine(poet.Poems.Count());
+                Console.WriteLine(poet.Poems.ToList()[0].Author.Name);
             }
         }
     }
