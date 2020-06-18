@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Uow;
 using ZL.AbpNext.Poem.Core.Poems;
 
 namespace ZL.AbpNext.Poem.ConsoleClient
@@ -17,7 +18,8 @@ namespace ZL.AbpNext.Poem.ConsoleClient
                 //Resolve a service and use it
                 var service =
                     application.ServiceProvider.GetService<Service>();
-                service.Run(application.ServiceProvider.GetService<IRepository<Poet>>());
+                var uowManager = application.ServiceProvider.GetRequiredService<IUnitOfWorkManager>();
+                service.Run(application.ServiceProvider.GetService<IRepository<Poet>>(),uowManager);
 
                 Console.WriteLine("Press ENTER to stop application...");
                 Console.ReadLine();
