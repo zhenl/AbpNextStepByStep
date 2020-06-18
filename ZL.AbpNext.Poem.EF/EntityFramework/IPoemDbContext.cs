@@ -9,5 +9,11 @@ namespace ZL.AbpNext.Poem.EF.EntityFramework
     public interface IPoemDbContext : IEfCoreDbContext
     {
         DbSet<Poet> Poets { get; set; }
+
+        DbSet<Core.Poems.Poem> Poems { get; set; }
+
+        DbSet<Category> Categories { get; set; }
+
+        DbSet<CategoryPoem> CategoryPoems { get; set; }
     }
 }

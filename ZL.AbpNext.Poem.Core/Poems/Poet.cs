@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Domain.Entities;
+﻿using System.Collections.Generic;
+using Volo.Abp.Domain.Entities;
 
 namespace ZL.AbpNext.Poem.Core.Poems
 {
@@ -16,6 +17,10 @@ namespace ZL.AbpNext.Poem.Core.Poems
         /// 介绍
         /// </summary>
         public virtual string Description { get; set; }
-        
+
+        /// <summary>
+        /// 写的诗
+        /// </summary>
+        public virtual ICollection<Poem> Poems { get; set; }
     }
 }
