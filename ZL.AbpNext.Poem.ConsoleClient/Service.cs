@@ -9,7 +9,14 @@ namespace ZL.AbpNext.Poem.ConsoleClient
 {
     public class Service : ITransientDependency
     {
-        public void Run(IRepository<Poet> repository, IUnitOfWorkManager uowManager)
+        IRepository<Poet> repository;
+        IUnitOfWorkManager uowManager;
+        public Service(IRepository<Poet> repository, IUnitOfWorkManager uowManager)
+        {
+            this.repository = repository;
+            this.uowManager = uowManager;
+        }
+        public void Run()
         {
             //Console.WriteLine("你好");
             using (var uow = uowManager.Begin(new AbpUnitOfWorkOptions()))

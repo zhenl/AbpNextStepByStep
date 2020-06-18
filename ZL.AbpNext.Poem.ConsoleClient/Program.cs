@@ -18,8 +18,7 @@ namespace ZL.AbpNext.Poem.ConsoleClient
                 //Resolve a service and use it
                 var service =
                     application.ServiceProvider.GetService<Service>();
-                var uowManager = application.ServiceProvider.GetRequiredService<IUnitOfWorkManager>();
-                service.Run(application.ServiceProvider.GetService<IRepository<Poet>>(),uowManager);
+                service.Run();
 
                 Console.WriteLine("Press ENTER to stop application...");
                 Console.ReadLine();
