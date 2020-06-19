@@ -7,7 +7,7 @@ using ZL.AbpNext.Poem.EF;
 namespace ZL.AbpNext.Poem.ConsoleClient
 {
     [DependsOn(
-        typeof(AbpAutofacModule),
+    typeof(AbpAutofacModule),
     typeof(PoemCoreModule),
     typeof(PoemApplicationModule),
     typeof(PoemDataModule))]

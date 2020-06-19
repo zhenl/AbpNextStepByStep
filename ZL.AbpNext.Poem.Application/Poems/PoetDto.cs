@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Volo.Abp.Application.Dtos;
-using ZL.AbpNext.Poem.Core.Poems;
+﻿using Volo.Abp.Application.Dtos;
 
 namespace ZL.AbpNext.Poem.Application.Poems
 {

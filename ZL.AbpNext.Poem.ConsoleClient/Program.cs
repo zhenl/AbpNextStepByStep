@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
-using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Uow;
-using ZL.AbpNext.Poem.Core.Poems;
+
 
 namespace ZL.AbpNext.Poem.ConsoleClient
 {
