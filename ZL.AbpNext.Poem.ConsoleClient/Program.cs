@@ -11,7 +11,11 @@ namespace ZL.AbpNext.Poem.ConsoleClient
     {
         static void Main(string[] args)
         {
-            using (var application = AbpApplicationFactory.Create<PoemConsoleClientModule>())
+
+            using (var application = AbpApplicationFactory.Create<PoemConsoleClientModule>(options =>
+            {
+                options.UseAutofac(); //Autofac integration
+            }))
             {
                 application.Initialize();
 
