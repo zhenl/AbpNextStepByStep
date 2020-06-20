@@ -35,6 +35,7 @@ namespace ZL.AbpNext.Poem.ConsoleClient
             //    Console.WriteLine(poet.Poems.Count());
             //    Console.WriteLine(poet.Poems.ToList()[0].Author.Name);
             //}
+
             var res=appService.GetPagedPoets(new Volo.Abp.Application.Dtos.PagedResultRequestDto { MaxResultCount = 10, SkipCount = 0 });
             Console.WriteLine(res.TotalCount);
             foreach(var dto in res.Items)

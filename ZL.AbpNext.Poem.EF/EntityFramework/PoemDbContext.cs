@@ -20,7 +20,6 @@ namespace ZL.AbpNext.Poem.EF.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
 
             //映射Poet到数据库表
             modelBuilder.Entity<Poet>(b =>
@@ -75,6 +74,8 @@ namespace ZL.AbpNext.Poem.EF.EntityFramework
                .HasForeignKey(pt => pt.CategoryId);
                 b.ConfigureByConvention();
             });
+            base.OnModelCreating(modelBuilder);
+
         }
     }
 }

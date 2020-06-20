@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
-
+using ZL.AbpNext.Poem.EF.EntityFramework;
 
 namespace ZL.AbpNext.Poem.ConsoleClient
 {
@@ -16,6 +17,20 @@ namespace ZL.AbpNext.Poem.ConsoleClient
             }))
             {
                 application.Initialize();
+                //var context = application.ServiceProvider.GetService<PoemDbContext>();
+                //try
+                //{
+                //    var b=context.Database.EnsureCreated();
+
+                //}
+                //catch (Exception ex)
+                //{
+
+                //    throw;
+                //}
+                
+                //var q = context.Poets;
+                //var lst=q.ToList();
 
                 //Resolve a service and use it
                 var service =
