@@ -12,5 +12,7 @@ namespace ZL.AbpNext.Poem.Application.Poems
         /// <param name="dto"></param>
         /// <returns></returns>
         PagedResultDto<PoetDto> GetPagedPoets(PagedResultRequestDto dto);
+
+        PoetDto AddPoet(PoetDto poet);
     }
 }

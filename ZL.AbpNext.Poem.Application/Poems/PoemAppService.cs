@@ -15,6 +15,22 @@ namespace ZL.AbpNext.Poem.Application.Poems
         {
             _poetRepository = poetRepository;
         }
+
+        public PoetDto AddPoet(PoetDto poet)
+        {
+            var addpoet=_poetRepository.InsertAsync(new Poet
+            {
+                 Name=poet.Name,
+                 Description=poet.Description
+            }).Result;
+            return new PoetDto
+            {
+                Id=addpoet.Id,
+                Name=addpoet.Name,
+                Description=addpoet.Description
+            };
+        }
+
         public PagedResultDto<PoetDto> GetPagedPoets(PagedResultRequestDto dto)
         {
            using (var uow = UnitOfWorkManager.Begin(new AbpUnitOfWorkOptions()))
