@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZL.AbpNext.Poem.EF", "ZL.Ab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZL.AbpNext.Poem.Application", "ZL.AbpNext.Poem.Application\ZL.AbpNext.Poem.Application.csproj", "{1A39979F-7422-40A2-9968-7CFFCC9BD022}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZL.AbpNext.Poem.Application.Test", "ZL.AbpNext.Poem.Application.Test\ZL.AbpNext.Poem.Application.Test.csproj", "{62706FE8-631B-4A8B-A735-6B5A8B5C183E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZL.AbpNext.Poem.Application.Test", "ZL.AbpNext.Poem.Application.Test\ZL.AbpNext.Poem.Application.Test.csproj", "{62706FE8-631B-4A8B-A735-6B5A8B5C183E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{819786E6-95DA-4D76-93B5-1B6122789121}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{62706FE8-631B-4A8B-A735-6B5A8B5C183E} = {819786E6-95DA-4D76-93B5-1B6122789121}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F1A64067-10E3-43FC-AB07-A3D6F1049BDF}

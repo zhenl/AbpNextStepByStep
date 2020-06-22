@@ -22,7 +22,7 @@ namespace ZL.AbpNext.Poem.Application.Poems
             {
                  Name=poet.Name,
                  Description=poet.Description
-            }).Result;
+            },true).Result;
             return new PoetDto
             {
                 Id=addpoet.Id,
