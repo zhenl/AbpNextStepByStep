@@ -1,20 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.VisualBasic.CompilerServices;
+using System.Collections.Generic;
 using System.Linq;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Uow;
+using Volo.Abp.Validation.StringValues;
 using ZL.AbpNext.Poem.Core.Poems;
+using ZL.AbpNext.Poem.Core.Repositories;
 
 namespace ZL.AbpNext.Poem.Application.Poems
 {
     public class PoemAppService : ApplicationService, IPoemAppService
     {
-        private readonly IRepository<Core.Poems.Poem> _poemRepository;
+        private readonly IPoemRepository _poemRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Poet> _poetRepository;
         private readonly IRepository<CategoryPoem> _categoryPoemRepository;
-        public PoemAppService(IRepository<Core.Poems.Poem> poemRepository
+        public PoemAppService(IPoemRepository poemRepository
             , IRepository<Category> categoryRepository
             , IRepository<Poet> poetRepository
             , IRepository<CategoryPoem> categoryPoemRepository)
@@ -106,8 +109,8 @@ namespace ZL.AbpNext.Poem.Application.Poems
 
         public PagedResultDto<PoetDto> GetPagedPoets(PagedResultRequestDto dto)
         {
-           using (var uow = UnitOfWorkManager.Begin(new AbpUnitOfWorkOptions()))
-            {
+           //using (var uow = UnitOfWorkManager.Begin(new AbpUnitOfWorkOptions()))
+           // {
                 var count = _poetRepository.Count();
                 var lst = _poetRepository.OrderBy(o => o.Id).PageBy(dto).ToList();
                 var items = new List<PoetDto>();
@@ -117,7 +120,7 @@ namespace ZL.AbpNext.Poem.Application.Poems
                     TotalCount = count,
                     Items = ObjectMapper.Map<List<Poet>, List<PoetDto>>(lst)
                 };
-            }
+            //}
             
         }
 
@@ -158,7 +161,13 @@ namespace ZL.AbpNext.Poem.Application.Poems
 
         public PagedResultDto<PoemDto> SearchPoems(SearchPoemDto dto)
         {
-            throw new System.NotImplementedException();
+           
+            int total;
+            var lst = _poemRepository.GetPagedPoems(dto.MaxResultCount, dto.SkipCount, dto.AuthorName, dto.Keyword, dto.Categories, out total).Result;
+            return new PagedResultDto<PoemDto> {
+                TotalCount = total,
+                Items=ObjectMapper.Map<List<Core.Poems.Poem>, List<PoemDto>>(lst)
+        };
         }
 
         public PagedResultDto<PoetDto> SearchPoets(SearchPoetDto dto)

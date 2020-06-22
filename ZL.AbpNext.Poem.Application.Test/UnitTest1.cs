@@ -12,36 +12,15 @@ namespace ZL.AbpNext.Poem.Application.Test
 {
     public class UnitTest1:PoemTestBase<PoemApplicationTestModule>
     {
-        private readonly IRepository<Poet, int> _appPoet;
         private readonly IPoemAppService _service;
 
         public UnitTest1()
         {
-            _appPoet= GetRequiredService<IRepository<Poet, int>>();
             _service = GetRequiredService<IPoemAppService>();
         }
 
-        [Fact]
+              [Fact]
         public async Task TestAddPoet()
-        {
-            await WithUnitOfWorkAsync(async () =>
-            {
-                var poet = new Poet
-                {
-                    Name = "Àî°×",
-                    Description = "Ê«ÈË"
-
-                };
-                //Act
-                var addedPoet = await _appPoet.InsertAsync(poet,true);
-                Assert.True(_appPoet.Count() >1);
-                //Assert
-                Assert.True(addedPoet.Id>0);
-            });
-        }
-
-        [Fact]
-        public async Task TestAddWithServicet()
         {
             await WithUnitOfWorkAsync(async () =>
             {
@@ -59,6 +38,34 @@ namespace ZL.AbpNext.Poem.Application.Test
                 Assert.True(res.TotalCount >1);
 
             });
+        }
+
+        [Fact]
+        public async Task TestGetCategories()
+        {
+            var categories = _service.GetAllCategories();
+            Assert.Equal(2, categories.Count);
+        }
+        [Fact]
+        public async Task TestGetPoems()
+        {
+            var res = _service.GetPagedPoems( new Volo.Abp.Application.Dtos.PagedResultRequestDto { MaxResultCount=1,SkipCount=0 });
+            Assert.Equal(3, res.TotalCount);
+            Assert.Equal(1, res.Items.Count);
+        }
+        [Fact]
+        public async Task TestSearchPoems()
+        {
+            var res = _service.SearchPoems(new SearchPoemDto { AuthorName="Àî°×", MaxResultCount = 1, SkipCount = 0 });
+            Assert.Equal(2, res.TotalCount);
+            Assert.Equal(1, res.Items.Count);
+        }
+        [Fact]
+        public async Task TestSearchPoemsTitle()
+        {
+            var res = _service.SearchPoems(new SearchPoemDto { Keyword="¾²", MaxResultCount = 1, SkipCount = 0 });
+            Assert.Equal(1, res.TotalCount);
+            Assert.Equal(1, res.Items.Count);
         }
     }
 
