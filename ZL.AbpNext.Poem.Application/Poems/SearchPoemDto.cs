@@ -11,5 +11,6 @@ namespace ZL.AbpNext.Poem.Application.Poems
 
         public string AuthorName { get; set; }
 
+        public string[] Categories { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace ZL.AbpNext.Poem.EF.Repositories
 
         }
 
-        public Task<List<Core.Poems.Poem>> GetPagedPoems(int maxResult, int skip, string author, string keyword,  out int total)
+        public Task<List<Core.Poems.Poem>> GetPagedPoems(int maxResult, int skip, string author, string keyword, string[] categories, out int total)
         {
             var set=DbContext.Set<Core.Poems.Poem>().Include(o=>o.Author).Include(o=>o.PoemCategories).AsQueryable();
             if (!string.IsNullOrEmpty(author))
@@ -31,7 +31,13 @@ namespace ZL.AbpNext.Poem.EF.Repositories
             {
                 set = set.Where(o => o.Title.Contains(keyword) );
             }
-            
+            if (categories != null && categories.Length > 0)
+            {
+                foreach (var category in categories)
+                {
+                    set = set.Where(o => o.PoemCategories.Any(q => q.Category.CategoryName == category));
+                }
+            }
             total = set.Count();
             var lst = set.OrderBy(o => o.Id).PageBy(skip,maxResult).ToListAsync();
             return lst;

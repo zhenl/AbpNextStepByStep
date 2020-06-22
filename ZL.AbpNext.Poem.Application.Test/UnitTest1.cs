@@ -67,6 +67,13 @@ namespace ZL.AbpNext.Poem.Application.Test
             Assert.Equal(1, res.TotalCount);
             Assert.Equal(1, res.Items.Count);
         }
+        [Fact]
+        public async Task TestSearchPoemscategories()
+        {
+            var res = _service.SearchPoems(new SearchPoemDto { Categories = new string[] { "小学生必背诗词" }, MaxResultCount = 1, SkipCount = 0 });
+            Assert.Equal(1, res.TotalCount);
+            Assert.Equal(1, res.Items.Count);
+        }
     }
 
 

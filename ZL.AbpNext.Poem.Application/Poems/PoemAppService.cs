@@ -163,7 +163,7 @@ namespace ZL.AbpNext.Poem.Application.Poems
         {
            
             int total;
-            var lst = _poemRepository.GetPagedPoems(dto.MaxResultCount, dto.SkipCount, dto.AuthorName, dto.Keyword, out total).Result;
+            var lst = _poemRepository.GetPagedPoems(dto.MaxResultCount, dto.SkipCount, dto.AuthorName, dto.Keyword,dto.Categories, out total).Result;
             return new PagedResultDto<PoemDto> {
                 TotalCount = total,
                 Items=ObjectMapper.Map<List<Core.Poems.Poem>, List<PoemDto>>(lst)

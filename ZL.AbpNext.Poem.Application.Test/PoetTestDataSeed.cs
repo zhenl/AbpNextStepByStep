@@ -48,44 +48,44 @@ namespace ZL.AbpNext.Poem.Application.Test
                  Title="静夜思",
                  PoetID =lb.Id
 
-            }).Result;
+            },true).Result;
             var p2=_appPoem.InsertAsync(new Core.Poems.Poem
             {
                 Title = "望庐山瀑布",
                 PoetID = lb.Id
 
-            }).Result;
+            },true).Result;
             
             var p3=_appPoem.InsertAsync(new Core.Poems.Poem
             {
                 Title = "石壕吏",
                 PoetID = df.Id
 
-            }).Result;
+            },true).Result;
 
-            //_appCategoryPoem.InsertAsync(new CategoryPoem
-            //{
-            //    CategoryId = c1.Id,
-            //    PoemId = p1.Id
-            //},true);
+            _appCategoryPoem.InsertAsync(new CategoryPoem
+            {
+                CategoryId = c1.Id,
+                PoemId = p1.Id
+            }, true);
 
-            //_appCategoryPoem.InsertAsync(new CategoryPoem
-            //{
-            //    CategoryId = c2.Id,
-            //    PoemId = p1.Id
-            //}, true);
+            _appCategoryPoem.InsertAsync(new CategoryPoem
+            {
+                CategoryId = c2.Id,
+                PoemId = p1.Id
+            }, true);
 
-            //_appCategoryPoem.InsertAsync(new CategoryPoem
-            //{
-            //    CategoryId = c1.Id,
-            //    PoemId = p2.Id
-            //}, true);
+            _appCategoryPoem.InsertAsync(new CategoryPoem
+            {
+                CategoryId = c1.Id,
+                PoemId = p2.Id
+            }, true);
 
-            //_appCategoryPoem.InsertAsync(new CategoryPoem
-            //{
-            //    CategoryId = c1.Id,
-            //    PoemId = p3.Id
-            //}, true);
+            _appCategoryPoem.InsertAsync(new CategoryPoem
+            {
+                CategoryId = c1.Id,
+                PoemId = p3.Id
+            }, true);
 
             return Task.CompletedTask;
         }
