@@ -10,10 +10,41 @@ namespace ZL.AbpNext.Poem.Application.Poems
 {
     public class PoemAppService : ApplicationService, IPoemAppService
     {
+        private readonly IRepository<Core.Poems.Poem> _poemRepository;
+        private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Poet> _poetRepository;
-        public PoemAppService(IRepository<Poet> poetRepository)
+        private readonly IRepository<CategoryPoem> _categoryPoemRepository;
+        public PoemAppService(IRepository<Core.Poems.Poem> poemRepository
+            , IRepository<Category> categoryRepository
+            , IRepository<Poet> poetRepository
+            , IRepository<CategoryPoem> categoryPoemRepository)
         {
+            _poemRepository = poemRepository;
+            _categoryRepository = categoryRepository;
             _poetRepository = poetRepository;
+            _categoryPoemRepository = categoryPoemRepository;
+        }
+
+        public CategoryDto AddCategory(CategoryDto category)
+        {
+            var cate = _categoryRepository.FirstOrDefault(o => o.CategoryName == category.CategoryName);
+
+            if (cate == null)
+            {
+                cate= _categoryRepository.InsertAsync(new Category { CategoryName = category.CategoryName },true).Result;
+            }
+            return ObjectMapper.Map<Category,CategoryDto>(cate); 
+            
+        }
+
+        public void AddPoemToCategory(CategoryPoemDto categoryPoem)
+        {
+            var categorypoem = _categoryPoemRepository.FirstOrDefault(o => o.CategoryId == categoryPoem.CategoryId && o.PoemId == categoryPoem.PoemId);
+            if (categorypoem == null)
+            {
+                categorypoem = new CategoryPoem { CategoryId = categoryPoem.CategoryId, PoemId = categoryPoem.PoemId };
+                _categoryPoemRepository.InsertAsync(categorypoem,true);
+            }
         }
 
         public PoetDto AddPoet(PoetDto poet)
@@ -28,6 +59,48 @@ namespace ZL.AbpNext.Poem.Application.Poems
                 Id=addpoet.Id,
                 Name=addpoet.Name,
                 Description=addpoet.Description
+            };
+        }
+
+        public void DeleteCategory(CategoryDto category)
+        {
+            if (category.Id > 0)
+            {
+                var cat = _categoryRepository.FirstOrDefault(o => o.Id == category.Id);
+                if (cat != null)
+                {
+                    _categoryRepository.DeleteAsync(cat, true);
+                }
+            }
+            else if (!string.IsNullOrEmpty(category.CategoryName))
+            {
+                var cat = _categoryRepository.FirstOrDefault(o => o.CategoryName == category.CategoryName);
+                if (cat != null)
+                {
+                    _categoryRepository.DeleteAsync(cat,true);
+                }
+            }
+        }
+
+        public List<CategoryDto> GetAllCategories()
+        {
+            return ObjectMapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.ToList());
+        }
+
+        public List<CategoryPoemDto> GetCategoryPoems()
+        {
+            return ObjectMapper.Map<List<CategoryPoem>, List<CategoryPoemDto>>(_categoryPoemRepository.ToList());
+        }
+
+        public PagedResultDto<PoemDto> GetPagedPoems(PagedResultRequestDto dto)
+        {
+            var count = _poemRepository.Count();
+            var lst = _poemRepository.OrderBy(o => o.Id).PageBy(dto).ToList();
+
+            return new PagedResultDto<PoemDto>
+            {
+                TotalCount = count,
+                Items = ObjectMapper.Map<List<Core.Poems.Poem>, List<PoemDto>>(lst) //lst.MapTo<List<PoemDto>>()
             };
         }
 
@@ -46,6 +119,63 @@ namespace ZL.AbpNext.Poem.Application.Poems
                 };
             }
             
+        }
+
+        public List<CategoryDto> GetPoemCategories(int poemid)
+        {
+            var lst = _categoryPoemRepository.Where(p => p.PoemId == poemid);
+            var categories = new List<Category>();
+            foreach (var cp in lst)
+            {
+                var cate = _categoryRepository.GetAsync(o => o.Id == cp.CategoryId).Result;
+                categories.Add(cate);
+            }
+
+            return ObjectMapper.Map<List<Category>, List<CategoryDto>>(categories);
+        }
+
+        public List<PoemDto> GetPoemsOfCategory(int categoryid)
+        {
+            var lst = _categoryPoemRepository.Where(p => p.CategoryId == categoryid);
+            var poems = new List<Core.Poems.Poem>();
+            foreach (var cp in lst)
+            {
+                var cate = _poemRepository.GetAsync(o => o.Id == cp.PoemId).Result;
+                poems.Add(cate);
+            }
+
+            return ObjectMapper.Map<List<Core.Poems.Poem>, List<PoemDto>>(poems);
+        }
+
+        public void RemovePoemFromCategory(CategoryPoemDto categoryPoem)
+        {
+            var categorypoem = _categoryPoemRepository.FirstOrDefault(o => o.CategoryId == categoryPoem.CategoryId && o.PoemId == categoryPoem.PoemId);
+            if (categorypoem != null)
+            {
+                _categoryPoemRepository.DeleteAsync(categorypoem,true);
+            }
+        }
+
+        public PagedResultDto<PoemDto> SearchPoems(SearchPoemDto dto)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public PagedResultDto<PoetDto> SearchPoets(SearchPoetDto dto)
+        {
+            var res = _poetRepository.AsQueryable();
+            if (!string.IsNullOrEmpty(dto.Keyword))
+            {
+                res = res.Where(o => o.Name.Contains(dto.Keyword));
+            }
+            var count = res.Count();
+            var lst = res.OrderBy(o => o.Id).PageBy(dto).ToList();
+
+            return new PagedResultDto<PoetDto>
+            {
+                TotalCount = count,
+                Items = ObjectMapper.Map< List < Poet> ,List <PoetDto>>(lst)
+            };
         }
     }
 }

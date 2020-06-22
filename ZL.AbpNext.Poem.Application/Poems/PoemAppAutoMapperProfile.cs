@@ -8,6 +8,9 @@ namespace ZL.AbpNext.Poem.Application.Poems
         public PoemAppAutoMapperProfile()
         {
             CreateMap<Poet, PoetDto>();
+            CreateMap<Core.Poems.Poem, PoemDto>();
+            CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryPoem, CategoryPoemDto>();
         }
     }
 }
