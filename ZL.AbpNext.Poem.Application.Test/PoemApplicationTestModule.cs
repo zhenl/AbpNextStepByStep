@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using System.Text;
 using Volo.Abp;
 using Volo.Abp.Autofac;
+using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Sqlite;
 using Volo.Abp.Modularity;
+using Volo.Abp.Threading;
 using ZL.AbpNext.Poem.Core;
 using ZL.AbpNext.Poem.EF;
 using ZL.AbpNext.Poem.EF.EntityFramework;
@@ -63,6 +65,24 @@ namespace ZL.AbpNext.Poem.Application.Test
             }
 
             return connection;
+        }
+
+        public override void OnApplicationInitialization(ApplicationInitializationContext context)
+        {
+            SeedTestData(context);
+        }
+
+        private static void SeedTestData(ApplicationInitializationContext context)
+        {
+            AsyncHelper.RunSync(async () =>
+            {
+                using (var scope = context.ServiceProvider.CreateScope())
+                {
+                    await scope.ServiceProvider
+                        .GetRequiredService<IDataSeeder>()
+                        .SeedAsync();
+                }
+            });
         }
     }
 }

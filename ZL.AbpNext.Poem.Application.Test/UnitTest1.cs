@@ -34,7 +34,7 @@ namespace ZL.AbpNext.Poem.Application.Test
                 };
                 //Act
                 var addedPoet = await _appPoet.InsertAsync(poet,true);
-                Assert.True(_appPoet.Count() ==1);
+                Assert.True(_appPoet.Count() >1);
                 //Assert
                 Assert.True(addedPoet.Id>0);
             });
@@ -56,7 +56,7 @@ namespace ZL.AbpNext.Poem.Application.Test
                
                 Assert.True(addPoet.Id > 0);
                 var res = _service.GetPagedPoets(new Volo.Abp.Application.Dtos.PagedResultRequestDto { MaxResultCount = 10, SkipCount = 0 });
-                Assert.True(res.TotalCount == 1);
+                Assert.True(res.TotalCount >1);
 
             });
         }
