@@ -10,7 +10,7 @@ using ZL.AbpNext.Poem.EF.EntityFramework;
 
 namespace ZL.AbpNext.Poem.Application.Test
 {
-    public class UnitTest1:PoemTestBase<PoemApplicationTestModule>
+    public class UnitTest1:PoemApplicationTestBase
     {
         private readonly IPoemAppService _service;
 

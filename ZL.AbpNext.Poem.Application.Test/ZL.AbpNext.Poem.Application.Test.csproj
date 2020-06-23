@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PoemTestBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
@@ -19,8 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ZL.AbpNext.Poem.Application\ZL.AbpNext.Poem.Application.csproj" />
-    <ProjectReference Include="..\ZL.AbpNext.Poem.Core\ZL.AbpNext.Poem.Core.csproj" />
-    <ProjectReference Include="..\ZL.AbpNext.Poem.EF\ZL.AbpNext.Poem.EF.csproj" />
+    <ProjectReference Include="..\ZL.AbpNext.Poem.Core.Test\ZL.AbpNext.Poem.Core.Test.csproj" />
   </ItemGroup>
 
   <ItemGroup>

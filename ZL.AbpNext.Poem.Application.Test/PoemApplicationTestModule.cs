@@ -14,75 +14,80 @@ using Volo.Abp.EntityFrameworkCore.Sqlite;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
 using ZL.AbpNext.Poem.Core;
+using ZL.AbpNext.Poem.Core.Test;
 using ZL.AbpNext.Poem.EF;
 using ZL.AbpNext.Poem.EF.EntityFramework;
 
 namespace ZL.AbpNext.Poem.Application.Test
 {
 
+    //[DependsOn(
+    //typeof(AbpAutofacModule),
+    //typeof(PoemCoreModule),
+    //typeof(PoemApplicationModule),
+    //typeof(PoemDataModule),
+    //typeof(AbpEntityFrameworkCoreSqliteModule))]
     [DependsOn(
-    typeof(AbpAutofacModule),
-    typeof(PoemCoreModule),
-    typeof(PoemApplicationModule),
-    typeof(PoemDataModule),
-        typeof(AbpEntityFrameworkCoreSqliteModule))]
+        typeof(PoemApplicationModule),
+     typeof(PoemCoreTestModule)
+     )]
     public class PoemApplicationTestModule : AbpModule
     {
-        private SqliteConnection _sqliteConnection;
-        public override void ConfigureServices(ServiceConfigurationContext context)
-        {
-            ConfigureInMemorySqlite(context.Services);
-        }
-        private void ConfigureInMemorySqlite(IServiceCollection services)
-        {
-            _sqliteConnection = CreateDatabaseAndGetConnection();
+        //private SqliteConnection _sqliteConnection;
+        //public override void ConfigureServices(ServiceConfigurationContext context)
+        //{
+        //    ConfigureInMemorySqlite(context.Services);
+        //}
+        //private void ConfigureInMemorySqlite(IServiceCollection services)
+        //{
+        //    _sqliteConnection = CreateDatabaseAndGetConnection();
 
-            services.Configure<AbpDbContextOptions>(options =>
-            {
-                options.Configure(context =>
-                {
-                    context.DbContextOptions.UseSqlite(_sqliteConnection);
-                });
-            });
-        }
-        public override void OnApplicationShutdown(ApplicationShutdownContext context)
-        {
-            _sqliteConnection.Dispose();
-        }
+        //    services.Configure<AbpDbContextOptions>(options =>
+        //    {
+        //        options.Configure(context =>
+        //        {
+        //            context.DbContextOptions.UseSqlite(_sqliteConnection);
+        //        });
+        //    });
+        //}
+        //public override void OnApplicationShutdown(ApplicationShutdownContext context)
+        //{
+        //    _sqliteConnection.Dispose();
+        //}
 
-        private static SqliteConnection CreateDatabaseAndGetConnection()
-        {
-            var connection = new SqliteConnection("Data Source=:memory:");
-            connection.Open();
+        //private static SqliteConnection CreateDatabaseAndGetConnection()
+        //{
+        //    var connection = new SqliteConnection("Data Source=:memory:");
+        //    connection.Open();
 
-            var options = new DbContextOptionsBuilder<PoemDbContext>()
-                .UseSqlite(connection)
-                .Options;
+        //    var options = new DbContextOptionsBuilder<PoemDbContext>()
+        //        .UseSqlite(connection)
+        //        .Options;
 
-            using (var context = new PoemDbContext(options))
-            {
-                context.GetService<IRelationalDatabaseCreator>().CreateTables();
-            }
+        //    using (var context = new PoemDbContext(options))
+        //    {
+        //        context.GetService<IRelationalDatabaseCreator>().CreateTables();
+        //    }
 
-            return connection;
-        }
+        //    return connection;
+        //}
 
-        public override void OnApplicationInitialization(ApplicationInitializationContext context)
-        {
-            SeedTestData(context);
-        }
+        //public override void OnApplicationInitialization(ApplicationInitializationContext context)
+        //{
+        //    SeedTestData(context);
+        //}
 
-        private static void SeedTestData(ApplicationInitializationContext context)
-        {
-            AsyncHelper.RunSync(async () =>
-            {
-                using (var scope = context.ServiceProvider.CreateScope())
-                {
-                    await scope.ServiceProvider
-                        .GetRequiredService<IDataSeeder>()
-                        .SeedAsync();
-                }
-            });
-        }
+        //private static void SeedTestData(ApplicationInitializationContext context)
+        //{
+        //    AsyncHelper.RunSync(async () =>
+        //    {
+        //        using (var scope = context.ServiceProvider.CreateScope())
+        //        {
+        //            await scope.ServiceProvider
+        //                .GetRequiredService<IDataSeeder>()
+        //                .SeedAsync();
+        //        }
+        //    });
+        //}
     }
 }
